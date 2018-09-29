@@ -1,15 +1,48 @@
-# Managed by Puppet.
+# Managed by Puppet <%= @module_name %>.
 
-## Add /usr/local to CSH-style environments
+# Adjust $PATH using logic similar to pathmunge() in RedHat Bourne Shell
+# CSH does not support functions, so we expand this in Puppet for consistency.
+<%- scope.lookupvar('etc_profile::manpathadd').each do |k,v| -%>
 
-foreach p (<%= scope.lookupvar('etc_profile::pathadd').join(' ') %>)
-    echo $PATH | fgrep $p || set PATH=${p}:${PATH}
-end
+if ( -d <%= k %> ) then
+    switch(":${PATH}:")
+        case "*:<%= k %>:*":
+            breaksw
+        default:
+<%-     if v['after'] then -%>
+            set PATH=$PATH:<%= k %>
+<%-     else -%>
+            set PATH=<%= k %>:$PATH
+<%-     end -%>
+            breaksw
+    endsw
+endif
+<%- end -%>
 
-foreach p (<%= scope.lookupvar('etc_profile::manpathadd').join(' ') %>)
-    set MANPATH=${p}:${MANPATH}
-end
+# Adjust $MANPATH using logic similar to pathmunge() in RedHat Bourne Shell
+# CSH does not support functions, so we expand this in Puppet for consistency.
+if (! $?MANPATH) then
+  setenv MANPATH
+endif
 
-# Add Puppet to the end
-set PATH=${PATH}:/opt/puppetlabs/bin
-set MANPATH=${MANPATH}:/opt/puppetlabs/puppet/share/man
+<%- scope.lookupvar('etc_profile::manpathadd').each do |k,v| -%>
+
+if ( -d <%= k %> ) then
+    switch(":${MANPATH}:")
+        case "*:<%= k %>:*":
+            breaksw
+        default:
+<%-     if v['after'] then -%>
+            set MANPATH=$MANPATH:<%= k %>
+<%-     else -%>
+            set MANPATH=<%= k %>:$MANPATH
+<%-     end -%>
+            breaksw
+    endsw
+endif
+<%- end -%>
+
+# Ensure OS X-style command
+if ( -x /usr/libexec/path_helper ) then
+    eval `/usr/libexec/path_helper -c`
+endif

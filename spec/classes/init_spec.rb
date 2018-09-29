@@ -15,7 +15,7 @@ describe 'etc_profile', type: :class do
     it do should contain_file('/etc/profile.d').with_ensure('directory') end
     it do
       should contain_file('/etc/profile.d/usr_local.sh').with_content(
-        /\nexport PATH/
+        /\n\s+export PATH/
       ).that_requires('File[/etc/profile.d]')
     end
   end
@@ -29,12 +29,12 @@ describe 'etc_profile', type: :class do
     end
     it do
       should contain_file('/private/etc/profile.d/usr_local.sh').with_content(
-        /\nexport PATH/
+        /\n\s+export PATH/
       ).that_requires('File[/private/etc/profile.d]')
     end
     it do
       should contain_file('/private/etc/profile.d/usr_local.csh').with_content(
-        /\nset PATH/
+        /\n\s+set PATH/
       ).that_requires('File[/private/etc/profile.d]')
     end
     it do
@@ -56,7 +56,7 @@ describe 'etc_profile', type: :class do
     it do should contain_package('tcsh') end
     it do
       should contain_file('/etc/csh/login.d/usr_local.csh').with_content(
-        /\nset PATH/
+        /\n\s+set PATH/
       ).that_requires('File[/etc/csh/login.d]')
     end
   end

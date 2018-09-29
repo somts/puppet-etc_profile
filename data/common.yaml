@@ -18,15 +18,17 @@ etc_profile::packages:
   - tcsh
 
 etc_profile::pathadd:
-  - /usr/local/sbin
-  - /usr/local/bin
-  - /usr/sbin
-  - /usr/bin
-  - /sbin
-  - /bin
+  /usr/sbin: {after: false}
+  /usr/bin: {after: false}
+  /sbin: {after: false}
+  /bin: {after: false}
+  /usr/local/sbin: {after: true}
+  /usr/local/bin: {after: true}
+  /opt/puppetlabs/bin: {after: true}
 
 etc_profile::manpathadd:
-  - /usr/share/man
-  - /usr/local/man
-  - /usr/local/share/man
+  /usr/share/man: {after: false}
+  /usr/local/man: {after: true}
+  /usr/local/share/man: {after: true}
+  /opt/puppetlabs/puppet/share/man: {after: true}
 ...

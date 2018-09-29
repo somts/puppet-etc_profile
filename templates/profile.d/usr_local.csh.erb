@@ -10,9 +10,9 @@ if ( -d <%= k %> ) then
             breaksw
         default:
 <%-     if v['after'] then -%>
-            set PATH=$PATH:<%= k %>
+            set PATH="$PATH:<%= k %>"
 <%-     else -%>
-            set PATH=<%= k %>:$PATH
+            set PATH="<%= k %>:$PATH"
 <%-     end -%>
             breaksw
     endsw
@@ -33,9 +33,9 @@ if ( -d <%= k %> ) then
             breaksw
         default:
 <%-     if v['after'] then -%>
-            set MANPATH=$MANPATH:<%= k %>
+            set MANPATH="$MANPATH:<%= k %>"
 <%-     else -%>
-            set MANPATH=<%= k %>:$MANPATH
+            set MANPATH="<%= k %>:$MANPATH"
 <%-     end -%>
             breaksw
     endsw

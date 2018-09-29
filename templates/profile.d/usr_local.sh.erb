@@ -1,0 +1,15 @@
+# Managed by Puppet.
+
+## Add /usr/local to Bourne-style environments
+
+for p in <%= scope.lookupvar('etc_profile::pathadd').join(' ') %>; do
+    if [ ! `echo $PATH | fgrep $p` ]; then
+        PATH=${p}:${PATH}
+    fi
+done
+
+MANPATH=<%= scope.lookupvar('etc_profile::manpathadd').join(':') %>
+
+# Add Puppet to the end
+export PATH=${PATH}:/opt/puppetlabs/bin
+export MANPATH=${MANPATH}:/opt/puppetlabs/puppet/share/man

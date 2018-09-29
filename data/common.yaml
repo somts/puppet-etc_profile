@@ -1,0 +1,30 @@
+---
+# We do not want to manage these paths by default so as not to
+# interfere with the OS's setup. We do want to manage when the OS
+# does not really do much (Darwin, FreeBSD).
+etc_profile::path_profile:
+etc_profile::path_csh_login:
+
+# Use RedHat-style csh-in-profile.d for the default
+etc_profile::csh_basedir: /etc/profile.d
+etc_profile::sh_basedir: /etc/profile.d
+
+etc_profile::directories:
+  - /etc/profile.d
+
+etc_profile::packages:
+  - bash
+  - tcsh
+
+etc_profile::pathadd:
+  - /usr/local/sbin
+  - /usr/local/bin
+  - /usr/sbin
+  - /usr/bin
+  - /sbin
+  - /bin
+
+etc_profile::manpathadd:
+  - /usr/share/man
+  - /usr/local/share/man
+...

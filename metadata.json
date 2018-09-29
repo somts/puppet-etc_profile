@@ -1,0 +1,25 @@
+{
+  "author": "somts",
+  "data_provider": "hiera",
+  "dependencies": [
+    { "name": "puppetlabs-stdlib", "version_requirement": ">= 4.13.1 < 5.0.0" }
+  ],
+  "issues_url": "https://github.com/somts/puppet-etc_profile/issues",
+  "license": "BSD 2-Clause License",
+  "name": "somts-etc_profile",
+  "operatingsystem_support": [
+    { "operatingsystem": "CentOS", "operatingsystemrelease": [ "7" ] },
+    { "operatingsystem": "Darwin", "operatingsystemrelease": [ "16" ] },
+    { "operatingsystem": "Debian", "operatingsystemrelease": [ "8" ] },
+    { "operatingsystem": "FreeBSD", "operatingsystemrelease": [ "11" ] },
+    { "operatingsystem": "RedHat", "operatingsystemrelease": [ "7" ] },
+    { "operatingsystem": "Ubuntu", "operatingsystemrelease": [ "16.04" ] }
+  ],
+  "project_page": "https://github.com/somts/puppet-etc_profile",
+  "requirements": [
+    { "name": "puppet", "version_requirement": ">= 4.5.0 < 5.0.0" }
+  ],
+  "source": "https://github.com/somts/puppet-etc_profile",
+  "summary": "Puppet module to manage /etc/profile.d and pals",
+  "version": "0.1.0"
+}

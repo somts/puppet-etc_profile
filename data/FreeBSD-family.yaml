@@ -1,0 +1,6 @@
+---
+etc_profile::path_csh_login: /etc/csh.login
+etc_profile::path_profile: /etc/profile
+etc_profile::packages:  # FreeBSD ships with tcsh and sh, but not BASH
+  - bash
+...

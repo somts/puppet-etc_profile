@@ -4,6 +4,7 @@ etc_profile::packages:
 etc_profile::csh_basedir: /private/etc/profile.d
 etc_profile::sh_basedir: /private/etc/profile.d
 etc_profile::path_csh_login: /private/etc/csh.login
+etc_profile::path_hostname: /bin/hostname
 etc_profile::path_profile: /private/etc/profile
 etc_profile::directories:
   - /private/etc/profile.d

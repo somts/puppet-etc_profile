@@ -19,7 +19,7 @@ foreach p ( /usr/local/sbin /usr/sbin )
 	endsw
 end
 
-setenv HOSTNAME `/usr/bin/hostname`
+setenv HOSTNAME `<%= scope.lookupvar('etc_profile::path_hostname') %>`
 set history=1000
 
 if ( -d <%= scope.lookupvar('etc_profile::csh_basedir') %> ) then

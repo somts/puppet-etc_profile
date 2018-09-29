@@ -4,6 +4,7 @@
 # does not really do much (Darwin, FreeBSD).
 etc_profile::path_profile:
 etc_profile::path_csh_login:
+etc_profile::path_hostname: /usr/bin/hostname
 
 # Use RedHat-style csh-in-profile.d for the default
 etc_profile::csh_basedir: /etc/profile.d
@@ -26,5 +27,6 @@ etc_profile::pathadd:
 
 etc_profile::manpathadd:
   - /usr/share/man
+  - /usr/local/man
   - /usr/local/share/man
 ...

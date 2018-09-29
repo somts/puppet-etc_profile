@@ -2,7 +2,7 @@
 
 # Adjust $PATH using logic similar to pathmunge() in RedHat Bourne Shell
 # CSH does not support functions, so we expand this in Puppet for consistency.
-<%- scope.lookupvar('etc_profile::manpathadd').each do |k,v| -%>
+<%- scope.lookupvar('etc_profile::pathadd').each do |k,v| -%>
 
 if ( -d <%= k %> ) then
     switch(":${PATH}:")

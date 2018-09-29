@@ -21,10 +21,6 @@ fi
 
 # Adjust $MANPATH using logic similar to pathmunge() in RedHat Bourne Shell
 # CSH does not support functions, so we expand this in Puppet for consistency.
-if (! $?MANPATH) then
-  setenv MANPATH
-endif
-
 <%- scope.lookupvar('etc_profile::manpathadd').each do |k,v| -%>
 
 if [ -d <%= k %> ]; then
@@ -33,14 +29,15 @@ if [ -d <%= k %> ]; then
             ;;
         *)
 <%-     if v['after'] then -%>
-            set MANPATH=$MANPATH:<%= k %>
+            MANPATH=$MANPATH:<%= k %>
 <%-     else -%>
-            set MANPATH=<%= k %>:$MANPATH
+            MANPATH=<%= k %>:$MANPATH
 <%-     end -%>
             ;;
     esac
 fi
 <%- end -%>
+export MANPATH
 
 # Ensure OS X-style command
 if ( -x /usr/libexec/path_helper ) then

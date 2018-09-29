@@ -24,7 +24,9 @@ describe 'etc_profile', type: :class do
     it do should compile end
     it do should_not contain_package('bash') end
     it do should_not contain_package('tcsh') end
-    it do should contain_file('/private/etc/profile.d').with_ensure('directory') end
+    it do
+      should contain_file('/private/etc/profile.d').with_ensure('directory')
+    end
     it do
       should contain_file('/private/etc/profile.d/usr_local.sh').with_content(
         /\nexport PATH/

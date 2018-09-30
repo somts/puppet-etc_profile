@@ -7,8 +7,7 @@
 class etc_profile(
   Stdlib::Absolutepath $sh_basedir,
   Stdlib::Absolutepath $csh_basedir,
-  Hash $pathadd,
-  Hash $manpathadd,
+  Hash $pathmunges,
   Stdlib::Absolutepath $path_hostname,
   Array[Stdlib::Absolutepath] $directories,
   Optional[Array] $packages,

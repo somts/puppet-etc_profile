@@ -1,13 +1,13 @@
 # Private class
 class etc_profile::config {
   file {
-    "${etc_profile::csh_basedir}/usr_local.csh":
+    "${etc_profile::csh_basedir}/pathmunge.csh":
       ensure  =>  'file',
-      content => template('etc_profile/profile.d/usr_local.csh.erb'),
+      content => template('etc_profile/profile.d/pathmunge.csh.erb'),
       require => File[$etc_profile::csh_basedir],;
-    "${etc_profile::sh_basedir}/usr_local.sh":
+    "${etc_profile::sh_basedir}/pathmunge.sh":
       ensure  => 'file',
-      content => template('etc_profile/profile.d/usr_local.sh.erb'),
+      content => template('etc_profile/profile.d/pathmunge.sh.erb'),
       require => File[$etc_profile::sh_basedir],;
   }
 
@@ -19,8 +19,8 @@ class etc_profile::config {
       owner  => 0,
       group  => 0,
       before => [
-        File["${etc_profile::csh_basedir}/usr_local.csh"],
-        File["${etc_profile::sh_basedir}/usr_local.sh"],
+        File["${etc_profile::csh_basedir}/pathmunge.csh"],
+        File["${etc_profile::sh_basedir}/pathmunge.sh"],
       ],
     }
   }
@@ -30,7 +30,7 @@ class etc_profile::config {
     file { $etc_profile::path_csh_login :
       ensure  => 'file',
       content => template('etc_profile/csh.login.erb'),
-      before  => File["${etc_profile::csh_basedir}/usr_local.csh"],
+      before  => File["${etc_profile::csh_basedir}/pathmunge.csh"],
     }
   }
   # Conditionally manage the global sh file
@@ -38,7 +38,17 @@ class etc_profile::config {
     file { $etc_profile::path_profile :
       ensure  => 'file',
       content => template('etc_profile/profile.erb'),
-      before  => File["${etc_profile::sh_basedir}/usr_local.sh"],
+      before  => File["${etc_profile::sh_basedir}/pathmunge.sh"],
     }
   }
+
+  # remove legacy files
+  ensure_resources('file',{
+    "${etc_profile::csh_basedir}/usr_local.csh" => {},
+    "${etc_profile::sh_basedir}/usr_local.csh" => {},
+    "${etc_profile::sh_basedir}/usr_local.sh" => {},
+  }, {
+    ensure  => 'absent',
+    require => [File[$etc_profile::csh_basedir],File[$etc_profile::sh_basedir]],
+  })
 }

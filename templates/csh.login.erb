@@ -35,3 +35,8 @@ if ( -d <%= scope.lookupvar('etc_profile::csh_basedir') %> ) then
         end
         unset i nonomatch
 endif
+
+# Ensure OS X-style command
+if ( -x /usr/libexec/path_helper ) then
+    eval `/usr/libexec/path_helper -c`
+endif

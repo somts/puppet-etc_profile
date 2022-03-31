@@ -1,25 +1,33 @@
 {
-  "author": "somts",
-  "data_provider": "hiera",
-  "dependencies": [
-    { "name": "puppetlabs-stdlib", "version_requirement": ">= 4.13.1 < 5.0.0" }
-  ],
-  "issues_url": "https://github.com/somts/puppet-etc_profile/issues",
-  "license": "BSD 2-Clause License",
   "name": "somts-etc_profile",
-  "operatingsystem_support": [
-    { "operatingsystem": "CentOS", "operatingsystemrelease": [ "7" ] },
-    { "operatingsystem": "Darwin", "operatingsystemrelease": [ "16" ] },
-    { "operatingsystem": "Debian", "operatingsystemrelease": [ "8" ] },
-    { "operatingsystem": "FreeBSD", "operatingsystemrelease": [ "11" ] },
-    { "operatingsystem": "RedHat", "operatingsystemrelease": [ "7" ] },
-    { "operatingsystem": "Ubuntu", "operatingsystemrelease": [ "16.04" ] }
-  ],
-  "project_page": "https://github.com/somts/puppet-etc_profile",
-  "requirements": [
-    { "name": "puppet", "version_requirement": ">= 4.5.0 < 5.0.0" }
-  ],
-  "source": "https://github.com/somts/puppet-etc_profile",
+  "version": "0.1.3",
+  "author": "somts",
   "summary": "Puppet module to manage /etc/profile.d and pals",
-  "version": "0.1.2"
+  "license": "BSD 2-Clause License",
+  "source": "https://github.com/somts/puppet-etc_profile",
+  "project_page": "https://github.com/somts/puppet-etc_profile",
+  "issues_url": "https://github.com/somts/puppet-etc_profile/issues",
+  "dependencies": [
+    { "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 4.13.1 < 5.0.0" }
+  ],
+  "data_provider": "hiera",
+  "operatingsystem_support": [
+    { "operatingsystem": "AlmaLinux", "operatingsystemrelease": [ "7", "8" ] },
+    { "operatingsystem": "CentOS", "operatingsystemrelease": [ "7", "8" ] },
+    { "operatingsystem": "Darwin", "operatingsystemrelease": [ "20" ] },
+    { "operatingsystem": "Debian", "operatingsystemrelease": [ "9", "10" ] },
+    { "operatingsystem": "FreeBSD", "operatingsystemrelease": [ "13" ] },
+    { "operatingsystem": "OracleLinux", "operatingsystemrelease": [ "7", "8" ] },
+    { "operatingsystem": "RedHat", "operatingsystemrelease": [ "7", "8" ] },
+    { "operatingsystem": "Rocky", "operatingsystemrelease": [ "7", "8" ] },
+    { "operatingsystem": "Ubuntu", "operatingsystemrelease": [ "16.04", "18.04", "20.04" ] }
+  ],
+  "requirements": [
+    { "name": "puppet",
+      "version_requirement": ">= 4.5.0 < 5.0.0" }
+  ],
+  "pdk-version": "2.4.0",
+  "template-url": "pdk-default#2.4.0",
+  "template-ref": "tags/2.4.0-0-gfa6b6d2"
 }

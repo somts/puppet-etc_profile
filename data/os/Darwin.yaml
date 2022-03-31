@@ -1,0 +1,27 @@
+---
+# Darwin ships with its shells pre-installed
+etc_profile::basedir_bourne: '/private/etc'
+etc_profile::basedir_cshell: '/private/etc'
+etc_profile::basedir_zshell: '/private/etc'
+etc_profile::group: 'wheel'
+etc_profile::manage_bourne_system_files: true  # need .d logic
+etc_profile::manage_cshell_system_files: true  # need .d logic
+etc_profile::packages:
+etc_profile::path_csh_cshrc: '/private/etc/csh.cshrc'
+etc_profile::path_csh_login: '/private/etc/csh.login'
+etc_profile::path_csh_logout: '/private/etc/csh.logout'
+etc_profile::path_hostname: '/bin/hostname'
+etc_profile::path_profile_bourne: '/private/etc/profile'
+etc_profile::pathmunges:
+  /bin: {append: false}
+  /sbin: {append: false}
+  /usr/bin: {append: false}
+  /usr/sbin: {append: false}
+  /usr/local/bin: {append: true}
+  /usr/local/sbin: {append: true}
+  /opt/homebrew/bin: {append: true}
+  /opt/homebrew/sbin: {append: true}
+  /usr/homebrew/bin: {append: true}
+  /usr/homebrew/sbin: {append: true}
+  /Library/Apple/usr/bin: {append: true}
+...

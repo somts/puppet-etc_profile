@@ -1,0 +1,44 @@
+<%- | String[1] $searchdir,
+      String[1] $module_name,
+      String[1] $operatingsystem,
+      String[1] $path_hostname | -%>
+# Managed by Puppet <%= $module_name %>. DO NOT EDIT.
+# csh.cshrc: system-wide .cshrc file for csh(1) and tcsh(1)
+<%-
+# RedHat has some weird logic to load *.csh files at login, but to
+# load those same files here, when we're not a login shell. We need to
+# install that logic when our search directory is the same as BASH's.
+if $searchdir =~ /profile\.d$/ {
+-%>
+# Lifted from OracleLinux 8 logic for installation on <%= $operatingsystem %>.
+
+# Check if we aren't a loginshell and do stuff if we aren't
+if (! $?loginsh) then
+    if ( -d <%= $searchdir %> ) then
+        set nonomatch
+        foreach i ( <%= $searchdir %>*.csh )
+            if ( -r "$i" ) then
+                if ($?prompt) then
+                    source "$i"
+                else
+                    source "$i" >&/dev/null
+                endif
+            endif
+        end
+        unset i nonomatch
+    endif
+endif
+<%-
+# When we have distinct directories like login.d and cshrc.d (EG Debian)
+# we reproduce Debian's logic instead.
+} else {
+-%>
+# Lifted from Ubuntu 20.04 logic for installation on <%= $operatingsystem %>.
+
+set dir=<%= searchdir %>
+if (-e $dir && `/bin/ls $dir` != "") then
+  foreach FILE (`/bin/ls $dir/*`)
+    source $FILE;
+  end;
+endif
+<%- } -%>

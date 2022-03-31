@@ -1,0 +1,5 @@
+<%- | String[1] $module_name, String[1] $operatingsystem | -%>
+# Managed by Puppet <%= $module_name %>. DO NOT EDIT.
+# $<%= $operatingsystem %>$
+#
+# /etc/csh.logout: system-wide .logout file for csh(1) and tcsh(1)

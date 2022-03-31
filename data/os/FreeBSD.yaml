@@ -1,0 +1,10 @@
+---
+etc_profile::basedir_zshell: '/usr/local/etc'
+etc_profile::group: 'wheel'
+etc_profile::manage_bourne_system_files: true  # need .d logic
+etc_profile::manage_cshell_system_files: true  # need .d logic
+etc_profile::packages: ['bash', 'zsh']
+etc_profile::path_csh_login: '/etc/csh.login'
+etc_profile::path_hostname: '/bin/hostname'
+etc_profile::path_profile: '/etc/profile'
+...

@@ -1,0 +1,19 @@
+<%- | String[1] $module_name, Hash $pathmunges | -%>
+# Managed by Puppet module <%= $module_name %>.
+
+# Conditionally adjust $PATH using logic similar to pathmunge() in
+# RedHat Bourne Shell
+<%-
+# We expand our search to explicit directories in Puppet for
+# consistency between shells.
+$pathmunges.each |$k,$v| {
+-%>
+
+if ! (( $path[(I)<%= $k %>] )) && [ -d <%= $k %> ]; then
+<%-   if 'append' in $v and $v['append'] { -%>
+    path+=(<%= $k %>)         # append
+<%-   } else { -%>
+    path=(<%= $k %> $path[@]) # prepend
+<%-   } -%>
+fi
+<%- } -%>

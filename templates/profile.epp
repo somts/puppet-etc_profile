@@ -1,13 +1,17 @@
+<%- | String[1] $basedir,
+      String[1] $module_name,
+      String[1] $operatingsystem,
+      String[1] $path_hostname | -%>
 # /etc/profile
-# Managed by Puppet <%= @module_name %>. DO NOT EDIT.
-# Lifted from CentOS for installation on <%= scope.lookupvar('::operatingsystem') %>.
+# Managed by Puppet <%= $module_name %>. DO NOT EDIT.
+# Lifted from OracleLinux 8 for installation on <%= $operatingsystem %>.
 
 # System wide environment and startup programs, for login setup
 # Functions and aliases go in /etc/bashrc
 
 # It's NOT a good idea to change this file unless you know what you
 # are doing. It's much better to create a custom.sh shell script in
-# <%= scope.lookupvar('etc_profile::sh_basedir') %>/ to make custom changes to your environment, as this
+# <%= $basedir %>/ to make custom changes to your environment, as this
 # will prevent the need for merging in future updates.
 
 pathmunge () {
@@ -44,7 +48,7 @@ else
     pathmunge /usr/sbin after
 fi
 
-HOSTNAME=`<%= scope.lookupvar('etc_profile::path_hostname') %> 2>/dev/null`
+HOSTNAME=`<%= $path_hostname %> 2>/dev/null`
 HISTSIZE=1000
 if [ "$HISTCONTROL" = "ignorespace" ] ; then
     export HISTCONTROL=ignoreboth
@@ -64,9 +68,9 @@ else
     umask 022
 fi
 
-for i in <%= scope.lookupvar('etc_profile::sh_basedir') %>/*.sh <%= scope.lookupvar('etc_profile::sh_basedir') %>/sh.local ; do
+for i in <%= $basedir %>/*.sh <%= $basedir %>/sh.local ; do
     if [ -r "$i" ]; then
-        if [ "${-#*i}" != "$-" ]; then
+        if [ "${-#*i}" != "$-" ]; then 
             . "$i"
         else
             . "$i" >/dev/null
@@ -77,7 +81,16 @@ done
 unset i
 unset -f pathmunge
 
-# OS X has this by default
+if [ -n "${BASH_VERSION-}" ] ; then
+        if [ -f /etc/bashrc ] ; then
+                # Bash login shells run only /etc/profile
+                # Bash non-login shells run only /etc/bashrc
+                # Check for double sourcing is done in /etc/bashrc.
+                . /etc/bashrc
+       fi
+fi
+
+# OS X has/had this by default
 if [ -x /usr/libexec/path_helper ]; then
 	eval `/usr/libexec/path_helper -s`
 fi

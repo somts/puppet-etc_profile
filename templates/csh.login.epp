@@ -1,0 +1,62 @@
+<%- | String[1] $basedir,
+      String[1] $module_name,
+      String[1] $operatingsystem,
+      String[1] $path_hostname | -%>
+# Managed by Puppet <%= $module_name %>. DO NOT EDIT.
+# /etc/csh.login: system-wide .login file for csh(1) and tcsh(1)
+# Lifted from OracleLinux 8 for installation on <%= $operatingsystem %>.
+
+# System wide environment and startup programs, for login setup
+
+if ( ! ${?PATH} ) then
+        if ( $uid == 0 ) then
+		setenv PATH "/usr/local/sbin:/usr/sbin:/usr/local/bin:/usr/bin"
+        else
+		setenv PATH "/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
+        endif
+else
+	#add sbin directories to the path
+	foreach p ( /usr/local/sbin /usr/sbin )
+		switch (":${PATH}:")
+		case "*:${p}:*":
+			breaksw
+		default:
+			if ( $uid == 0 ) then
+	                        set path = ( ${p} ${path:q} )
+			else
+	                        set path = ( ${path:q} ${p} )
+			endif
+			breaksw
+		endsw
+	end
+endif
+
+setenv HOSTNAME `<%= $path_hostname %>`
+set history=1000
+
+if ( -d <%= $basedir %> ) then
+        set nonomatch
+        foreach i ( <%= $basedir %>/*.csh )
+                if ( -r "$i" ) then
+	                        if ($?prompt) then
+	                              source "$i"
+	                        else
+	                              source "$i" >& /dev/null
+	                        endif
+                endif
+        end
+        unset i nonomatch
+endif
+
+# Debian-style allow for other packages/system admins to customize the
+# shell environment
+if (-e /etc/csh/login.d && `/bin/ls /etc/csh/login.d` != "") then
+  foreach FILE (`/bin/ls /etc/csh/login.d/*`)
+    source $FILE;
+  end;
+endif
+
+# Ensure OS X-style command
+if ( -x /usr/libexec/path_helper ) then
+    eval `/usr/libexec/path_helper -c`
+endif

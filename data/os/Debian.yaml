@@ -1,0 +1,5 @@
+---
+etc_profile::basedir_cshell: '/etc/csh'
+etc_profile::basedir_zshell: '/etc/zsh'
+etc_profile::profile_cshell: 'cshrc.d'
+...

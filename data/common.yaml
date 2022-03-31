@@ -1,27 +1,32 @@
+# module defaults follow RedHat-style conventions
 ---
-# We do not want to manage these paths by default so as not to
-# interfere with the OS's setup. We do want to manage when the OS
-# does not really do much (Darwin, FreeBSD).
-etc_profile::path_profile:
-etc_profile::path_csh_login:
-etc_profile::path_hostname: /usr/bin/hostname
-
-# Use RedHat-style csh-in-profile.d for the default
-etc_profile::csh_basedir: /etc/profile.d
-etc_profile::sh_basedir: /etc/profile.d
-
-etc_profile::directories:
-  - /etc/profile.d
-
-etc_profile::packages:
-  - bash
-  - tcsh
-
+etc_profile::basedir_bourne: '/etc'
+etc_profile::basedir_cshell: '/etc'
+etc_profile::basedir_zshell: '/etc'
+etc_profile::profile_cshell: 'profile.d'
+etc_profile::directories_manage: []
+etc_profile::group: 'root'
+etc_profile::manage_bourne: true
+etc_profile::manage_cshell: true
+etc_profile::manage_zshell: true
+etc_profile::manage_bourne_system_files: false  # Debian/RedHat: avoid
+etc_profile::manage_cshell_system_files: false  # Debian/RedHat: avoid
+etc_profile::owner: 'root'
+etc_profile::packages: ['bash', 'tcsh', 'zsh']
+etc_profile::path_csh_cshrc: '/etc/csh.cshrc'
+etc_profile::path_csh_login: '/etc/csh.login'
+etc_profile::path_csh_logout: '/etc/csh.logout'
+etc_profile::path_hostname: '/usr/bin/hostname'
+etc_profile::path_profile_bourne: '/etc/profile'
+etc_profile::path_zshenv: '/etc/zshenv.d'
 etc_profile::pathmunges:
-  /bin: {after: false}
-  /sbin: {after: false}
-  /usr/bin: {after: false}
-  /usr/sbin: {after: false}
-  /usr/local/bin: {after: true}
-  /usr/local/sbin: {after: true}
+  /bin: {append: false}
+  /sbin: {append: false}
+  /usr/bin: {append: false}
+  /usr/sbin: {append: false}
+  /usr/local/bin: {append: true}
+  /usr/local/sbin: {append: true}
+  /snap/bin: {append: true}
+  /usr/games: {append: true}
+  /usr/local/games: {append: true}
 ...

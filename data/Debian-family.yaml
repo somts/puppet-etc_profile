@@ -1,7 +1,0 @@
----
-etc_profile::csh_basedir: /etc/csh/login.d
-etc_profile::directories:
-  - /etc/profile.d
-  - /etc/csh
-  - /etc/csh/login.d
-...

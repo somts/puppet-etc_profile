@@ -3,68 +3,100 @@
 #### Table of Contents
 
 1. [Description](#description)
-1. [Setup - The basics of getting started with etc_profile](#setup)
+2. [Setup - The basics of getting started with etc_profile](#setup)
     * [What etc_profile affects](#what-etc_profile-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with etc_profile](#beginning-with-etc_profile)
-1. [Usage - Configuration options and additional functionality](#usage)
-1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-1. [Limitations - OS compatibility, etc.](#limitations)
-1. [Development - Guide for contributing to the module](#development)
+3. [Usage - Configuration options and additional functionality](#usage)
+4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+5. [Limitations - OS compatibility, etc.](#limitations)
+6. [Development - Guide for contributing to the module](#development)
 
 ## Description
 
-Start with a one- or two-sentence summary of what the module does and/or what
-problem it solves. This is your 30-second elevator pitch for your module.
-Consider including OS/Puppet version it works with.
+This module sets up `/etc/profile.d` for Bourne/Bourne Again shell and
+the logical equivalents in C-shell and Z-shell. The intention is to
+make it easy for other Puppet file resources/packages/system admins to
+customize the respective shell environments without having to touch
+the main system-wide file(s).
 
-You can give more descriptive information in a second paragraph. This paragraph
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?" If your module has a range of functionality (installation, configuration,
-management, etc.), this is the time to mention it.
+sh/bash and csh/tcsh vary widely on how they are set up across OSes.
+EG, on RedHat-style OSes, `/etc/profile.d` contains `*.sh` files
+alongside `*.csh`. On other OSes, CSH `.d` directories either do not
+exist or live in a location separate from where Bourne shell files live.
+
+Some OSes do not ship with/install the logical equivalent of searching
+for `/etc/profile.d/*.sh`, `/etc/profile.d/*.csh` or `*.zsh` files, but
+some do. We consistently want those `.d`-style directories, so this
+module changes what needs to be changed per OS and shell to set that up
 
 ## Setup
 
-### What etc_profile affects **OPTIONAL**
+### What etc_profile affects
 
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
+Based on the OS, Puppet may manage a single line of the complete
+contents of files system-wide files for `/bin/sh`/`/bin/bash`,
+`/bin/csh`/`/bin/tcsh` and `/bin/zsh`.
 
-If there's more that they should know about, though, this is the place to mention:
+#### Bourne (Again) Shell
+Note the `/etc` path will be different on OSes such as
+FreeBSD (`/usr/local/etc`) and Darwin (`/private/etc`).
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
+* `/etc/profile` when needed
+* `/etc/profile.d`
+
+#### C Shell
+All supported OSes store system-wide C Shell files in `/etc`, save
+Darwin (`/private/etc`), but whether or not the OS is set up to search
+for `.d` directories varies widely.
+
+* `/etc/csh.cshrc` when needed
+* `/etc/csh.login` when needed
+* `/etc/csh.logout` when needed
+* `/etc/profile.d` or logical equivalent where `*.csh` files can live (EG `/etc/csh/login.d` and `/etc/csh/cshrc.d` on Debian)
+
+#### Z Shell
+Note the `/etc` path will be different on OSes such as
+FreeBSD (`/usr/local/etc`) and Darwin (`/private/etc`).
+
+Since FreeBSD/Linux do not ship with *zsh*, there is less historical
+variance to overcome and less dependence on system setup for this shell.
+As such, we take a less nuanced approach when setting up this shell. We
+ensure these files exist:
+
+* `/etc/zshenv` or logical equivalent
+* `/etc/zprofile` or logical equivalent
+* `/etc/zshrc` or logical equivalent
+* `/etc/zlogin` or logical equivalent
+* `/etc/zlogout` or logical equivalent
+
+...and these directories exist, which do not come standard with zsh:
+* `/etc/zsh/zshenv.d` or logical equivalent
+* `/etc/zsh/zprofile.d` or logical equivalent
+* `/etc/zsh/zshrc.d` or logical equivalent
+* `/etc/zsh/zlogin.d` or logical equivalent
+* `/etc/zsh/zlogout.d` or logical equivalent
+
+...and finally, we insert a line in `/etc/zshenv`, `/etc/zprofile`,
+`/etc/zshrc`, `/etc/zlogin` and `/etc/zlogout` (or logical equivalent)
+that ensures that zsh will look for `*.zsh` files in the respective `.d`
+directory, similar to Bourne shell.
 
 ### Setup Requirements **OPTIONAL**
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section
-here.
+None, yet.
 
 ### Beginning with etc_profile
 
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most
-basic use of the module.
-
 ## Usage
 
-This section is where you describe how to customize, configure, and do the
-fancy stuff with your module here. It's especially helpful if you include usage
-examples and code samples for doing things with your module.
+```puppet
+contain 'etc_profile'
+```
 
 ## Reference
 
-Here, include a complete list of your module's classes, types, providers,
-facts, along with the parameters for each. Users refer to this section (thus
-the name "Reference") to find specific details; most users don't read it per
-se.
+Parameters described in `init.pp`.
 
 ## Limitations
 
@@ -73,11 +105,9 @@ are Known Issues, you might want to include them under their own heading here.
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
+This is an in-house module for a production environment. Pull requests
+will be considered, but no promises.
 
 ## Release Notes/Contributors/Etc. **Optional**
 
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel
-are necessary or important to include here. Please use the `## ` header.
+See CHANGELOG
